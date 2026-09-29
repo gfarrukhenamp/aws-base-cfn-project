@@ -1,3 +1,10 @@
+Parameters:
+  BucketName:
+    Type: String
+    Description: "Enter your Bucket Name"
+    Default: ""
+
+
 Resources:
   myKey:
     Type: 'AWS::KMS::Key'
@@ -45,3 +52,9 @@ Resources:
               - 'kms:GenerateDataKey'
               - 'kms:GenerateDataKeyWithoutPlaintext'
             Resource: '*'
+
+  S3Bucket:
+    Type: 'AWS::S3::Bucket'
+    DeletionPolicy: Delete
+    Properties:
+      BucketName: !Ref BucketName

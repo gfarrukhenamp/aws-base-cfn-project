@@ -1,0 +1,39 @@
+name: Sync Professor Repository
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: "0 */6 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  sync-upstream:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout my repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Connect to professor repository
+        run: |
+          git remote add upstream https://github.com/rashid2014/aws-base-cfn-project.git
+          git fetch upstream main
+
+      - name: Merge professor updates
+        run: |
+          git checkout main
+          git merge upstream/main --no-edit
+
+      - name: Push updates to my repository
+        run: |
+          git push origin main

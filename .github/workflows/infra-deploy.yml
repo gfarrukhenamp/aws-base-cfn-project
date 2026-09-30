@@ -87,7 +87,7 @@ jobs:
         if: ${{ github.event.inputs.action == 'destroy' }}
         run: |
           aws cloudformation delete-stack \
-            --stack-name "${{ env.STACK_NAME }}"
+            --stack-name "${{ github.event.inputs.StackName }}"
 
           echo "Waiting for stack deletion..."
 
